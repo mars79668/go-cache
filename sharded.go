@@ -19,6 +19,7 @@ import (
 //
 // See cache_test.go for a few benchmarks.
 
+// ShardedCache shard cache
 type ShardedCache struct {
 	*shardedCache
 }
@@ -141,7 +142,7 @@ func (j *shardedJanitor) Run(sc *shardedCache) {
 	}
 }
 
-func stopShardedJanitor(sc *unexportedShardedCache) {
+func stopShardedJanitor(sc *ShardedCache) {
 	sc.janitor.stop <- true
 }
 
@@ -178,7 +179,8 @@ func newShardedCache(n int, de time.Duration) *shardedCache {
 	return sc
 }
 
-func NewSharded(defaultExpiration, cleanupInterval time.Duration, shards int) *unexportedShardedCache {
+// NewSharded  create new shard cache
+func NewSharded(defaultExpiration, cleanupInterval time.Duration, shards int) *ShardedCache {
 	if defaultExpiration == 0 {
 		defaultExpiration = -1
 	}
